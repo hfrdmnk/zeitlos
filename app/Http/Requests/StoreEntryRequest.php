@@ -33,7 +33,7 @@ class StoreEntryRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if (empty($this->mood) && empty($this->story)) {
-                $validator->errors()->add('entry', 'At least one of mood or story must be provided.');
+                $validator->errors()->add('story', 'At least one of mood or story must be provided.');
             }
         });
     }
