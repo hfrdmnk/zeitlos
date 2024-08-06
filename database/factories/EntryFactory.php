@@ -17,7 +17,7 @@ class EntryFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
+            'date' => $this->faker->unique()->dateTimeBetween('-3 year', 'now')->format('Y-m-d'),
             'story' => $this->faker->paragraphs(3, true),
             'mood' => $this->faker->numberBetween(1, 5),
         ];
