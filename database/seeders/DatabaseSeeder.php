@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Entry::factory(10)->create([
+        Entry::factory(100)->create([
             'user_id' => $user->id,
         ]);
     }
