@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')
+    ->middleware(['guest']);
 
 Route::get('day', function (Request $request): View {
     try {
@@ -23,10 +24,6 @@ Route::get('day', function (Request $request): View {
 })
     ->middleware(['auth', 'verified'])
     ->name('day');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
