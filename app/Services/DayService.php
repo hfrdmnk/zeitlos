@@ -6,6 +6,7 @@ use App\Models\Entry;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Wireable;
 
 class DayService
 {
@@ -13,7 +14,7 @@ class DayService
     public function createDay(Carbon $date): Day
     {
         return new Day(
-            $date,
+            $date->startOfDay(),
             $this->loadEntry($date),
             $this->loadFlashbacks($date)
         );
@@ -75,38 +76,61 @@ class DayService
     }
 }
 
-class Day
+class Day implements Wireable
 {
     public function __construct(
         public Carbon $date,
         public ?Entry $entry,
         public Flashbacks $flashbacks
-    ) {
+    ) {}
+
+    public function toLivewire()
+    {
+        return [
+            'date' => $this->date->toDateString(),
+            'entry' => $this->entry?->toArray(),
+            'flashbacks' => $this->flashbacks->toLivewire(),
+        ];
+    }
+
+    public static function fromLivewire($value)
+    {
+        return new static(
+            Carbon::parse($value['date']),
+            $value['entry'] ? Entry::make($value['entry']) : null,
+            Flashbacks::fromLivewire($value['flashbacks'])
+        );
     }
 }
 
-class Flashbacks
+class Flashbacks implements Wireable
 {
     public function __construct(
         public ?Entry $weekAgo,
         public ?Entry $thirtyDaysAgo,
         public ?Entry $hundredDaysAgo,
         public Collection $yearlyFlashbacks
-    ) {
+    ) {}
+
+    public function toLivewire()
+    {
+        return [
+            'weekAgo' => $this->weekAgo?->toArray(),
+            'thirtyDaysAgo' => $this->thirtyDaysAgo?->toArray(),
+            'hundredDaysAgo' => $this->hundredDaysAgo?->toArray(),
+            'yearlyFlashbacks' => $this->yearlyFlashbacks->map(function ($entry) {
+                return $entry->toArray();
+            })->all(),
+        ];
     }
 
-    public function getYearAgo(int $years): ?Entry
+    public static function fromLivewire($value)
     {
-        return $this->yearlyFlashbacks->get($years * -1);
-    }
-
-    public function getYearAhead(int $years): ?Entry
-    {
-        return $this->yearlyFlashbacks->get($years);
-    }
-
-    public function getAllYearlyFlashbacks(): Collection
-    {
-        return $this->yearlyFlashbacks;
+        return new static(
+            $value['weekAgo'] ? Entry::make($value['weekAgo']) : null,
+            $value['thirtyDaysAgo'] ? Entry::make($value['thirtyDaysAgo']) : null,
+            $value['hundredDaysAgo'] ? Entry::make($value['hundredDaysAgo']) : null,
+            collect($value['yearlyFlashbacks'])->map(fn($e) => Entry::make($e))
+        );
     }
 }
