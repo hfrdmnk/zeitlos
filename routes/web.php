@@ -13,9 +13,12 @@ Route::get('day', function (Request $request): View {
     try {
         $dateInput = $request->input('date', now()->toDateString());
         $date = Carbon::createFromFormat('Y-m-d', $dateInput);
+
+        if ($date->isFuture()) {
+            throw new \Exception('Date cannot be in the future');
+        }
     } catch (\Exception $e) {
         $date = now()->startOfDay();
-        dd($date);
     }
     $dayService = new DayService();
     $day = $dayService->createDay($date);
