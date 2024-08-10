@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Requests\StoreEntryRequest;
 use App\Services\DayService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

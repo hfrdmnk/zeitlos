@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Entry;
 
 new class extends Component {
     public $entry;
@@ -40,7 +41,23 @@ new class extends Component {
 
     public function save()
     {
-        dd($this->story, $this->mood);
+        $validated = $this->validate([
+            'date' => ['required', 'date', 'before_or_equal:today'],
+            'story' => ['nullable', 'string', 'max:65535'],
+            'mood' => ['nullable', 'integer', 'min:1', 'max:5'],
+        ]);
+
+        if (is_null($validated['story']) && is_null($validated['mood'])) {
+            $this->addError('story', 'You must at least enter a story or rate your day to create an entry.');
+            return;
+        }
+
+        $entry = $this->entry ?? new Entry();
+        $entry->story = $validated['story'];
+        $entry->mood = $validated['mood'];
+        $entry->date = $validated['date'];
+        $entry->user_id = Auth::id();
+        $entry->save();
     }
 }; ?>
 
