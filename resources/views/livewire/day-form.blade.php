@@ -69,6 +69,6 @@ new class extends Component {
     <form wire:submit="save" class="flex flex-col gap-4">
         <x-mary-textarea label="Story" wire:model="story" placeholder="Your story of today…" rows="5" />
         <x-mary-radio label="Mood" wire:model="mood" :options="$moodOptions" option-label="label" />
-        <x-mary-button type="submit">Save</x-mary-button>
+        <x-mary-button type="submit" class="btn-primary" wire:dirty>Save</x-mary-button>
     </form>
 </div>
