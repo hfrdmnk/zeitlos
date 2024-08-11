@@ -3,6 +3,7 @@
 use App\Http\Requests\StoreEntryRequest;
 use App\Services\DayService;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
@@ -10,7 +11,7 @@ use Illuminate\View\View;
 Route::view('/', 'welcome')
     ->middleware(['guest']);
 
-Route::get('day', function (Request $request): View {
+Route::get('day', function (Request $request): View|RedirectResponse {
     try {
         $dateInput = $request->input('date', now()->toDateString());
         $date = Carbon::createFromFormat('Y-m-d', $dateInput);
@@ -19,8 +20,9 @@ Route::get('day', function (Request $request): View {
             throw new \Exception('Date cannot be in the future');
         }
     } catch (\Exception $e) {
-        $date = now()->startOfDay();
+        return redirect()->route('day');
     }
+
     $dayService = new DayService();
     $day = $dayService->createDay($date);
 
