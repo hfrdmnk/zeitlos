@@ -32,11 +32,20 @@ class DayService
     private function loadFlashbacks(Carbon $date): Flashbacks
     {
         return new Flashbacks(
+            $this->hasFlashbacks($date),
             $this->loadWeekAgo($date),
             $this->load30DaysAgo($date),
             $this->load100DaysAgo($date),
             $this->loadYearlyFlashbacks($date)
         );
+    }
+
+    private function hasFlashbacks(Carbon $date): bool
+    {
+        return $this->loadWeekAgo($date) !== null
+            || $this->load30DaysAgo($date) !== null
+            || $this->load100DaysAgo($date) !== null
+            || $this->loadYearlyFlashbacks($date)->isNotEmpty();
     }
 
     private function loadWeekAgo(Carbon $date): ?Entry
@@ -106,6 +115,7 @@ class Day implements Wireable
 class Flashbacks implements Wireable
 {
     public function __construct(
+        public bool $hasFlashbacks,
         public ?Entry $weekAgo,
         public ?Entry $thirtyDaysAgo,
         public ?Entry $hundredDaysAgo,
@@ -115,6 +125,7 @@ class Flashbacks implements Wireable
     public function toLivewire()
     {
         return [
+            'hasFlashbacks' => $this->hasFlashbacks,
             'weekAgo' => $this->weekAgo?->toArray(),
             'thirtyDaysAgo' => $this->thirtyDaysAgo?->toArray(),
             'hundredDaysAgo' => $this->hundredDaysAgo?->toArray(),
@@ -127,6 +138,7 @@ class Flashbacks implements Wireable
     public static function fromLivewire($value)
     {
         return new static(
+            $value['hasFlashbacks'],
             $value['weekAgo'] ? Entry::make($value['weekAgo']) : null,
             $value['thirtyDaysAgo'] ? Entry::make($value['thirtyDaysAgo']) : null,
             $value['hundredDaysAgo'] ? Entry::make($value['hundredDaysAgo']) : null,
