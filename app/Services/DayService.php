@@ -14,10 +14,29 @@ class DayService
     public function createDay(Carbon $date): Day
     {
         return new Day(
+            $this->calculateStreak($date),
             $date->startOfDay(),
             $this->loadEntry($date),
             $this->loadFlashbacks($date)
         );
+    }
+
+    // Calculates the current streak for the given date
+    private function calculateStreak(Carbon $date): int
+    {
+        $streak = 0;
+        $currentDate = $date->copy()->subDay();
+
+        while ($this->loadEntry($currentDate)) {
+            $streak++;
+            $currentDate->subDay();
+        }
+
+        if ($this->loadEntry($date)) {
+            $streak++;
+        }
+
+        return $streak;
     }
 
     // Loads the entry for the given date
@@ -88,6 +107,7 @@ class DayService
 class Day implements Wireable
 {
     public function __construct(
+        public int $streak,
         public Carbon $date,
         public ?Entry $entry,
         public Flashbacks $flashbacks
@@ -96,6 +116,7 @@ class Day implements Wireable
     public function toLivewire()
     {
         return [
+            'streak' => $this->streak,
             'date' => $this->date->toDateString(),
             'entry' => $this->entry?->toArray(),
             'flashbacks' => $this->flashbacks->toLivewire(),
@@ -105,6 +126,7 @@ class Day implements Wireable
     public static function fromLivewire($value)
     {
         return new static(
+            $value['streak'],
             Carbon::parse($value['date']),
             $value['entry'] ? Entry::make($value['entry']) : null,
             Flashbacks::fromLivewire($value['flashbacks'])
