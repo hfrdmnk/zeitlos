@@ -12,6 +12,12 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex items-center gap-2">
+                        <x-mary-icon name="solar.flame-bold-duotone" @class([
+                            'text-amber-400' => isset($day->entry),
+                        ]) />
+                        <span>{{ $day->streak }}</span>
+                    </div>
                     <livewire:day.form :entry="$day->entry" :date="$day->date" />
                 </div>
             </div>
