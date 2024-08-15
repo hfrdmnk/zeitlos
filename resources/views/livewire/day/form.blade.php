@@ -52,12 +52,15 @@ new class extends Component {
             return;
         }
 
+        $date = $validated['date'];
         $entry = $this->entry ?? new Entry();
         $entry->story = $validated['story'];
         $entry->mood = $validated['mood'];
-        $entry->date = $validated['date'];
+        $entry->date = $date;
         $entry->user_id = Auth::id();
         $entry->save();
+
+        $this->dispatch('entry-updated', date: $date);
     }
 }; ?>
 
