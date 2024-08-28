@@ -1,15 +1,20 @@
 <?php
 
-use App\Http\Requests\StoreEntryRequest;
 use App\Services\DayService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
-Route::view('/', 'welcome')
-    ->middleware(['guest']);
+Route::get('/', function (): RedirectResponse {
+    if (Auth::check()) {
+        return redirect()->route('day');
+    } else {
+        return redirect()->route('login');
+    }
+});
 
 Route::get('day', function (Request $request): View|RedirectResponse {
     try {
