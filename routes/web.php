@@ -8,12 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
-Route::get('/', function (): RedirectResponse {
-    if (Auth::check()) {
-        return redirect()->route('day');
-    } else {
-        return redirect()->route('login');
-    }
+Route::get('/', function (): string {
+    return 'Hello Ploi!';
 });
 
 Route::get('day', function (Request $request): View|RedirectResponse {
