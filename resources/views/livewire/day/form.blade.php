@@ -1,7 +1,7 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\Entry;
+use Livewire\Volt\Component;
 
 new class extends Component {
     public $entry;
@@ -49,6 +49,7 @@ new class extends Component {
 
         if (is_null($validated['story']) && is_null($validated['mood'])) {
             $this->addError('story', 'You must at least enter a story or rate your day to create an entry.');
+
             return;
         }
 
@@ -67,9 +68,12 @@ new class extends Component {
 <div class="flex flex-col gap-8 p-8">
     <div class="flex flex-col items-center gap-2">
         <h1>{{ $date->format('d.m.Y') }}</h1>
-        <h2 class="font-serif text-4xl italic font-semibold">{{ $date->format('l') }}</h2>
+        <h2 class="font-serif text-4xl font-semibold italic">{{ $date->format('l') }}</h2>
     </div>
     <form wire:submit="save" class="flex flex-col gap-4">
+        <x-mary-button type="button" class="btn-accent" wire:click="dispatch('entry-deleted', date: $date)">
+            Delete
+        </x-mary-button>
         <x-mary-textarea label="Story" wire:model="story" placeholder="Your story of today…" rows="5" />
         <x-mary-radio label="Mood" wire:model="mood" :options="$moodOptions" option-label="label" />
         <x-mary-button type="submit" class="btn-primary" wire:dirty>Save</x-mary-button>

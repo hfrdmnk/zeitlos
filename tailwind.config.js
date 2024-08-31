@@ -47,5 +47,22 @@ export default {
         },
     },
 
+    daisyui: {
+        themes: [
+            {
+                burning: {
+                    primary: '#18181B',
+                    secondary: '#3F3F46',
+                    accent: '#ff652a',
+                    'accent-content': '#ffe6d4',
+                    neutral: '#18181B',
+                    'base-100': '#FAFAFA',
+                    'base-200': '#F4F4F5',
+                    'base-300': '#E4E4E7',
+                },
+            },
+        ],
+    },
+
     plugins: [forms, require('daisyui')],
 };
