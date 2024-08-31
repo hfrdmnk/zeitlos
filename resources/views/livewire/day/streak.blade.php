@@ -1,9 +1,9 @@
 <?php
 
-use Livewire\Volt\Component;
-use Livewire\Attributes\On;
 use App\Services\DayService;
 use Carbon\Carbon;
+use Livewire\Attributes\On;
+use Livewire\Volt\Component;
 
 new class extends Component {
     public $entry;
@@ -20,8 +20,8 @@ new class extends Component {
 }; ?>
 
 <div class="flex items-center gap-2">
-    <x-mary-icon name="solar.flame-bold-duotone" @class([
-        'text-amber-400' => $entry,
+    <x-mary-icon name="solar.flame-line-duotone" @class([
+        'text-accent' => $entry,
     ]) />
     <span>{{ $streak }}</span>
 </div>
