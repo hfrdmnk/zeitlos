@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 flex items-center justify-between w-full p-4">
+<nav class="fixed left-0 top-0 flex w-full items-center justify-between p-4">
     {{-- <x-mary-button icon="solar.sort-by-time-line-duotone" class="btn-ghost" tooltip-right="Open Timeline" /> --}}
     <div class="w-[100px]"></div>
     <livewire:day.datepicker :date="$day->date" />
