@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
             if (! $existingDates->contains($date)) {
                 Entry::factory()->create([
-                    'user_id' => $user->id,
+                    'user_id' => $user->id ?? 1,
                     'date' => $date,
                 ]);
                 $existingDates->push($date);
