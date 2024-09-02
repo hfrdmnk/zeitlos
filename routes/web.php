@@ -22,9 +22,9 @@ Route::get('day', function (Request $request): View|RedirectResponse {
         $date = Carbon::createFromFormat('Y-m-d', $dateInput);
 
         if ($date->isFuture()) {
-            throw new \Exception('Date cannot be in the future');
+            throw new Exception('Date cannot be in the future');
         }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return redirect()->route('day');
     }
 

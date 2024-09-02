@@ -1,4 +1,4 @@
 export default {
-    '**/*.php*': ['vendor/bin/duster fix'],
-    '**/*': 'prettier --write --ignore-unknown',
+    '**/*.php*': ['vendor/bin/duster fix --verbose'],
+    'resources/**/*': 'npx prettier --write resources/',
 };
