@@ -5,7 +5,7 @@ on:
     push:
         branches: [main]
 concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 jobs:
     code-quality:
@@ -16,17 +16,26 @@ jobs:
               with:
                   fetch-depth: 0 # Fetch all history for all branches and tags
 
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.2' # Adjust this to match your project's PHP version
+                  tools: composer:v2
+
+            - name: Install PHP dependencies
+              run: composer install --no-progress --no-suggest --prefer-dist
+
             - name: Use Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: '20'
                   cache: 'npm'
 
-            - name: Install dependencies
+            - name: Install Node.js dependencies
               run: npm ci
 
             - name: Run PHP formatting with Pint
-              run: npm run format:pint
+              run: ./vendor/bin/pint
 
             - name: Run JS/CSS formatting with Prettier
               run: npm run format:prettier
