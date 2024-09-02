@@ -1,5 +1,9 @@
+# Adapted from https://akhilaariyachandra.com/blog/prettier-in-github-actions
+
 name: Code Quality checks
 on:
+    push:
+        branches: [main]
     pull_request:
         branches: [main]
 concurrency:
@@ -14,6 +18,8 @@ jobs:
                 node-version: [18]
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # Fetch all history for all branches and tags
 
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v3
