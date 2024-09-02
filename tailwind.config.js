@@ -11,6 +11,15 @@ export default {
     ],
 
     theme: {
+        container: {
+            center: true,
+            padding: '1rem',
+            screens: {
+                DEFAULT: '1024px',
+                sm: '640px',
+                md: '768px',
+            },
+        },
         extend: {
             fontFamily: {
                 sans: ['Switzer', ...defaultTheme.fontFamily.sans],
@@ -19,6 +28,7 @@ export default {
             colors: {
                 'base-headings': 'var(--base-headings)',
                 'base-muted': 'var(--base-muted)',
+                'base-front': 'var(--base-front)',
                 'burning-orange': {
                     50: '#fff4ed',
                     100: '#ffe6d4',
@@ -62,6 +72,7 @@ export default {
                     'base-200': '#F4F4F5',
                     'base-300': '#E4E4E7',
                     'base-content': '#3f3f46',
+                    '--base-front': '#FFFFFF',
                     '--base-headings': '#18181b',
                     '--base-muted': '#a1a1aa',
                 },
