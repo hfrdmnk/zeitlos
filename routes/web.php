@@ -28,7 +28,7 @@ Route::get('day', function (Request $request): View|RedirectResponse {
         return redirect()->route('day');
     }
 
-    $dayService = new DayService();
+    $dayService = new DayService;
     $day = $dayService->createDay($date);
 
     return view('day', compact('day'));
@@ -40,4 +40,4 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

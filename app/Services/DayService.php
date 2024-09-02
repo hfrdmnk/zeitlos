@@ -92,6 +92,7 @@ class DayService
 
         return $entries->mapWithKeys(function ($entry) use ($date) {
             $yearDiff = $entry->date->year - $date->year;
+
             return [$yearDiff => $entry];
         })->sortKeys();
     }
@@ -164,7 +165,7 @@ class Flashbacks implements Wireable
             $value['weekAgo'] ? Entry::make($value['weekAgo']) : null,
             $value['thirtyDaysAgo'] ? Entry::make($value['thirtyDaysAgo']) : null,
             $value['hundredDaysAgo'] ? Entry::make($value['hundredDaysAgo']) : null,
-            collect($value['yearlyFlashbacks'])->map(fn($e) => Entry::make($e))
+            collect($value['yearlyFlashbacks'])->map(fn ($e) => Entry::make($e))
         );
     }
 }

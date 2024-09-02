@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         while ($count < $items && $attempt < $maxAttempts) {
             $date = Carbon::instance(fake()->dateTimeBetween($startDate, $endDate))->format('Y-m-d');
 
-            if (!$existingDates->contains($date)) {
+            if (! $existingDates->contains($date)) {
                 Entry::factory()->create([
                     'user_id' => $user->id,
                     'date' => $date,
