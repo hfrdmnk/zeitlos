@@ -32,3 +32,9 @@
         src: url('../fonts/switzer/Switzer-VariableItalic.woff2') format('woff2');
     }
 }
+
+@layer components {
+    .textarea {
+        @apply border-base-300 bg-transparent focus:border-accent focus:outline-none;
+    }
+}

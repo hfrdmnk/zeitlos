@@ -41,7 +41,11 @@ new class extends Component {
         class="btn-ghost text-base-muted hover:bg-base-200"
         wire:click="goToPreviousDay"
     />
-    <x-mary-datetime wire:model.change="date" :max="$maxDate" class="border-zinc-400" />
+    <x-mary-datetime
+        wire:model.change="date"
+        :max="$maxDate"
+        class="border-base-300 focus-within:border-accent focus-within:outline-none focus:border-accent focus:outline-none"
+    />
     <x-mary-button
         icon="solar.alt-arrow-right-line-duotone"
         class="btn-ghost text-base-muted hover:bg-base-200 disabled:bg-transparent disabled:opacity-50"
