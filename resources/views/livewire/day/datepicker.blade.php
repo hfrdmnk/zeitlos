@@ -38,13 +38,13 @@ new class extends Component {
 <div class="flex items-center gap-2">
     <x-mary-button
         icon="solar.alt-arrow-left-line-duotone"
-        class="btn-ghost text-zinc-400 hover:bg-base-200"
+        class="btn-ghost text-base-muted hover:bg-base-200"
         wire:click="goToPreviousDay"
     />
     <x-mary-datetime wire:model.change="date" :max="$maxDate" class="border-zinc-400" />
     <x-mary-button
         icon="solar.alt-arrow-right-line-duotone"
-        class="btn-ghost text-zinc-400 hover:bg-base-200 disabled:bg-transparent disabled:opacity-50"
+        class="btn-ghost text-base-muted hover:bg-base-200 disabled:bg-transparent disabled:opacity-50"
         wire:click="goToNextDay"
         :disabled="$date === $maxDate"
     />

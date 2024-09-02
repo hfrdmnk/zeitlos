@@ -17,6 +17,8 @@ export default {
                 display: ['Instrument Serif', ...defaultTheme.fontFamily.serif],
             },
             colors: {
+                'base-headings': 'var(--base-headings)',
+                'base-muted': 'var(--base-muted)',
                 'burning-orange': {
                     50: '#fff4ed',
                     100: '#ffe6d4',
@@ -59,6 +61,9 @@ export default {
                     'base-100': '#FAFAFA',
                     'base-200': '#F4F4F5',
                     'base-300': '#E4E4E7',
+                    'base-content': '#3f3f46',
+                    '--base-headings': '#18181b',
+                    '--base-muted': '#a1a1aa',
                 },
             },
         ],
