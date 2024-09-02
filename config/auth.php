@@ -112,4 +112,13 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Only allow specific users to register
+    |--------------------------------------------------------------------------
+    */
+
+    'allow_specific_users_register' => env('ALLOW_SPECIFIC_USERS_REGISTER', false),
+    'allowed_users' => explode(',', env('ALLOWED_USERS', '')),
+
 ];

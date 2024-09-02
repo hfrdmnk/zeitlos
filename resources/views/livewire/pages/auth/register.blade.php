@@ -5,6 +5,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -19,11 +20,21 @@ new #[Layout('layouts.guest')] class extends Component {
      */
     public function register(): void
     {
-        $validated = $this->validate([
+        $allowedUsers = Config::get('auth.allowed_users', []);
+        $allowSpecificUsers = Config::get('auth.allow_specific_users_register', false);
+
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ];
+
+        if ($allowSpecificUsers) {
+            $rules['email'][] = Rule::in($allowedUsers);
+            $messages['email.in'] = 'Registration is restricted. This email is not allowed to register.';
+        }
+
+        $validated = $this->validate($rules, $messages);
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -43,7 +54,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <x-text-input
                 wire:model="name"
                 id="name"
-                class="mt-1 block w-full"
+                class="block w-full mt-1"
                 type="text"
                 name="name"
                 required
@@ -59,7 +70,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <x-text-input
                 wire:model="email"
                 id="email"
-                class="mt-1 block w-full"
+                class="block w-full mt-1"
                 type="email"
                 name="email"
                 required
@@ -75,7 +86,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <x-text-input
                 wire:model="password"
                 id="password"
-                class="mt-1 block w-full"
+                class="block w-full mt-1"
                 type="password"
                 name="password"
                 required
@@ -92,7 +103,7 @@ new #[Layout('layouts.guest')] class extends Component {
             <x-text-input
                 wire:model="password_confirmation"
                 id="password_confirmation"
-                class="mt-1 block w-full"
+                class="block w-full mt-1"
                 type="password"
                 name="password_confirmation"
                 required
@@ -102,9 +113,9 @@ new #[Layout('layouts.guest')] class extends Component {
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="mt-4 flex items-center justify-end">
+        <div class="flex items-center justify-end mt-4">
             <a
-                class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                 href="{{ route('login') }}"
                 wire:navigate
             >
