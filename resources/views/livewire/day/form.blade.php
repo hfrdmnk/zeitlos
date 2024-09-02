@@ -69,7 +69,7 @@ new class extends Component {
     }
 }; ?>
 
-<div class="p-8 rounded shadow-md bg-base-front">
+<div class="rounded bg-base-front p-8 shadow-md">
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-base-muted">{{ $date->format('d.m.Y') }}</h1>
@@ -86,14 +86,14 @@ new class extends Component {
             Save entry
         </x-mary-button>
     </div>
-    <form wire:submit="save" id="edit-entry" class="flex flex-col gap-8 mt-8">
+    <form wire:submit="save" id="edit-entry" class="mt-8 flex flex-col gap-8">
         <x-mary-textarea label="Story" wire:model="story" placeholder="Your story of the day…" rows="5" />
         <div class="flex items-center justify-between">
             @foreach ($moodOptions as $option)
                 <label class="cursor-pointer">
-                    <input type="radio" wire:model="mood" value="{{ $option['id'] }}" class="hidden peer" />
+                    <input type="radio" wire:model="mood" value="{{ $option['id'] }}" class="peer hidden" />
                     <span
-                        class="flex items-center justify-center text-2xl transition-colors duration-200 rounded-full h-14 w-14 bg-accent-content peer-checked:bg-accent"
+                        class="flex h-14 w-14 items-center justify-center rounded-full bg-accent-content text-2xl transition-colors duration-200 peer-checked:bg-accent"
                     >
                         {{ $option['label'] }}
                     </span>
@@ -101,7 +101,7 @@ new class extends Component {
             @endforeach
         </div>
         @error('mood')
-            <p class="p-1 text-red-500 label-text-alt">{{ $message }}</p>
+            <p class="label-text-alt p-1 text-red-500">{{ $message }}</p>
         @enderror
     </form>
 </div>
