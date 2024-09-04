@@ -23,6 +23,9 @@ jobs:
                   tools: composer:v2
 
             - name: Install PHP dependencies
+              env:
+                  SLACK_BOT_USER_OAUTH_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_TOKEN }}
+                  SLACK_BOT_USER_DEFAULT_CHANNEL: ${{ secrets.SLACK_BOT_USER_DEFAULT_CHANNEL }}
               run: composer install --no-progress --no-suggest --prefer-dist
 
             - name: Use Node.js
