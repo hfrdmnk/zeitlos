@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
+use App\Http\Controllers\EntryExportController;
 
 Route::get('/', function (): RedirectResponse {
     if (Auth::check()) {
@@ -40,4 +41,6 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+Route::get('/entries/export', EntryExportController::class)->name('entries.export')->middleware(['auth']);
+
+require __DIR__ . '/auth.php';
