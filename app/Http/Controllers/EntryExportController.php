@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
-use App\Models\Entry;
 
 class EntryExportController extends Controller
 {
